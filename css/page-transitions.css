@@ -1,0 +1,101 @@
+/* =========================================
+   SOFT PREMIUM PAGE TRANSITIONS
+   ========================================= */
+
+:root {
+  --transition-gold: #c9a45c;
+  --transition-ivory: #f8f5ed;
+  --transition-teal: #123c4a;
+}
+
+/* Keep the transition layer completely neutral until navigation starts. */
+body.page-transition-enabled {
+  position: relative;
+  isolation: isolate;
+  background: var(--transition-ivory);
+}
+
+/* A warm, translucent veil replaces the heavier dark fade. */
+body.page-transition-enabled::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(201, 164, 92, 0.10), transparent 30%),
+    radial-gradient(circle at 50% 52%, rgba(255, 255, 255, 0.58), rgba(248, 245, 237, 0.94) 72%),
+    rgba(248, 245, 237, 0.72);
+  backdrop-filter: blur(2px) saturate(1.02);
+  -webkit-backdrop-filter: blur(2px) saturate(1.02);
+  transform: scale(1.015);
+  transition:
+    opacity 640ms cubic-bezier(.22, .61, .36, 1),
+    transform 760ms cubic-bezier(.22, .61, .36, 1);
+  will-change: opacity, transform;
+}
+
+/* Very subtle golden glow instead of the previous bright line. */
+body.page-transition-enabled::after {
+  content: "";
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: min(18rem, 34vw);
+  height: min(18rem, 34vw);
+  z-index: 100000;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 164, 92, 0.17) 0%, rgba(201, 164, 92, 0.06) 28%, transparent 70%);
+  filter: blur(18px);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.72);
+  transition:
+    opacity 460ms cubic-bezier(.22, .61, .36, 1),
+    transform 820ms cubic-bezier(.16, 1, .3, 1);
+  will-change: opacity, transform;
+}
+
+body.page-transition-enabled.is-leaving::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+body.page-transition-enabled.is-leaving::after {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Gentle arrival: barely-there lift and fade, without the old hard movement. */
+body.page-transition-enabled.page-entering main,
+body.page-transition-enabled.page-entering footer {
+  animation: pageContentEnter 760ms cubic-bezier(.22, .61, .36, 1) both;
+  will-change: opacity, transform;
+}
+
+@keyframes pageContentEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(.997);
+  }
+  60% {
+    opacity: .84;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.page-transition-enabled::before,
+  body.page-transition-enabled::after {
+    transition: none;
+  }
+
+  body.page-transition-enabled.page-entering main,
+  body.page-transition-enabled.page-entering footer {
+    animation: none;
+  }
+}

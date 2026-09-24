@@ -1,0 +1,61 @@
+/* =========================================================
+   PHASE 3 — SCROLL & SECTION REVEALS
+   Quiet, premium viewport-based motion. No layout/content changes.
+   ========================================================= */
+
+:root{
+  --reveal-ease:cubic-bezier(.22,.72,.2,1);
+  --reveal-duration:.78s;
+}
+
+/* Only engage hidden states after the JS enhancement is ready.
+   Without JS, all original content remains fully visible. */
+body.scroll-reveal-ready .reveal-item{
+  opacity:0;
+  transform:translate3d(0,26px,0);
+  transition:
+    opacity var(--reveal-duration) var(--reveal-ease),
+    transform var(--reveal-duration) var(--reveal-ease);
+  transition-delay:var(--reveal-delay,0ms);
+  will-change:opacity,transform;
+}
+
+body.scroll-reveal-ready .reveal-item.reveal-visible{
+  opacity:1;
+  transform:translate3d(0,0,0);
+}
+
+/* Softer movement for large visual panels. */
+body.scroll-reveal-ready .reveal-item.reveal-visual{
+  transform:translate3d(0,18px,0) scale(.992);
+}
+
+body.scroll-reveal-ready .reveal-item.reveal-visual.reveal-visible{
+  transform:translate3d(0,0,0) scale(1);
+}
+
+/* Decorative-only reveal helpers should never intercept pointer input. */
+.reveal-item{
+  backface-visibility:hidden;
+}
+
+@media (prefers-reduced-motion: reduce){
+  body.scroll-reveal-ready .reveal-item,
+  body.scroll-reveal-ready .reveal-item.reveal-visual{
+    opacity:1;
+    transform:none;
+    transition:none;
+    will-change:auto;
+  }
+}
+
+@media (max-width: 700px){
+  body.scroll-reveal-ready .reveal-item{
+    transform:translate3d(0,18px,0);
+    transition-duration:.68s;
+  }
+
+  body.scroll-reveal-ready .reveal-item.reveal-visual{
+    transform:translate3d(0,14px,0) scale(.995);
+  }
+}

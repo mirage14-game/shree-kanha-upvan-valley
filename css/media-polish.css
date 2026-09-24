@@ -1,0 +1,61 @@
+/* =========================================================
+   PHASE 4 — CINEMATIC MEDIA POLISH
+   Subtle image/video settling only. No content/layout changes.
+   ========================================================= */
+
+:root{
+  --media-ease:cubic-bezier(.22,.72,.2,1);
+}
+
+/* The enhancement is opt-in through JS. Without JS, existing media remains visible. */
+body.media-polish-ready .media-polish-target{
+  opacity:0;
+  filter:blur(3px);
+  transform:scale(1.004);
+  transition:
+    opacity .68s var(--media-ease),
+    filter .78s var(--media-ease),
+    transform .9s var(--media-ease);
+  will-change:opacity,filter,transform;
+}
+
+body.media-polish-ready .media-polish-target.media-polish-visible{
+  opacity:1;
+  filter:none;
+  transform:none;
+  will-change:auto;
+}
+
+/* A restrained settling motion for existing hero imagery after the page is ready. */
+body.media-polish-loaded .hero-image,
+body.media-polish-loaded .project-hero-image{
+  animation:mediaHeroSettle 1.15s var(--media-ease) both;
+}
+
+@keyframes mediaHeroSettle{
+  from{transform:scale(1.018);}
+  to{transform:scale(1);}
+}
+
+@media (prefers-reduced-motion: reduce){
+  body.media-polish-ready .media-polish-target{
+    opacity:1;
+    filter:none;
+    transform:none;
+    transition:none;
+    will-change:auto;
+  }
+
+  body.media-polish-loaded .hero-image,
+  body.media-polish-loaded .project-hero-image{
+    animation:none;
+  }
+}
+
+@media (max-width:700px){
+  body.media-polish-ready .media-polish-target{
+    filter:blur(2px);
+    transform:scale(1.002);
+    transition-duration:.58s;
+  }
+}

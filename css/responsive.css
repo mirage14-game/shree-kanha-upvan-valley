@@ -1,0 +1,203 @@
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 1050px) {
+  .navbar {
+    gap: 15px;
+  }
+
+  .nav-links {
+    gap: 15px;
+  }
+
+  .nav-links a {
+    font-size: 10px;
+  }
+
+  .brand {
+    width: 155px;
+  }
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .about-content {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 850px) {
+  .hero-side-label {
+    width: 42px;
+    padding: 11vh 0;
+    font-size: 11px;
+    letter-spacing: .12em;
+  }
+
+  .site-header {
+    padding: 15px 18px 0;
+  }
+
+  .navbar {
+    height: 67px;
+    padding-left: 10px;
+  }
+
+  .brand {
+    width: 150px;
+    height: 48px;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 92px;
+    left: 18px;
+    right: 18px;
+    padding: 23px;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    background: rgba(18,60,74,.97);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 18px;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    width: 100%;
+    padding: 12px 3px;
+    font-size: 11px;
+  }
+
+  /* Mobile menu also keeps the same dark/glass family after scroll. */
+  .site-header.scrolled .nav-links {
+    background: rgba(18,60,74,.97);
+  }
+
+  .nav-cta {
+    margin-left: auto;
+    padding: 12px 14px;
+    font-size: 9px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero {
+    height: 850px;
+  }
+
+  .hero-inner {
+    padding: 0 8vw 40px;
+  }
+
+  .hero-side-label {
+    width: 46px;
+  }
+
+  .hero-copy {
+    width: min(610px, 100%);
+    margin-top: 31vh;
+  }
+
+  h1 {
+    font-size: clamp(54px, 10.5vw, 78px);
+  }
+
+  .hero-bottom {
+    left: 8vw;
+    right: 8vw;
+  }
+
+  .hero-note {
+    display: none;
+  }
+
+  .about-section {
+    padding: 58px 25px 72px;
+  }
+
+  .about-statement h2 {
+    font-size: 43px;
+  }
+}
+
+@media (max-width: 540px) {
+  .nav-cta {
+    display: none;
+  }
+
+  .brand {
+    width: 145px;
+  }
+
+  .hero {
+    min-height: 780px;
+    height: 100svh;
+  }
+
+  .hero-image {
+    background-position: 62% center;
+  }
+
+  .hero-overlay {
+    background:
+      linear-gradient(90deg, rgba(6,31,37,.86), rgba(8,36,40,.42)),
+      linear-gradient(0deg, rgba(5,24,29,.62), transparent 48%);
+  }
+
+  .hero-inner {
+    padding: 0 25px 35px;
+  }
+
+  .hero-side-label {
+    display: none;
+  }
+
+  .hero-copy {
+    margin-top: 29vh;
+  }
+
+  .eyebrow {
+    font-size: 8px;
+    letter-spacing: .17em;
+  }
+
+  h1 {
+    font-size: clamp(54px, 17vw, 78px);
+  }
+
+  .hero-description {
+    margin-top: 24px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+
+  .hero-bottom {
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+  }
+
+  .about-section {
+    padding: 54px 25px 72px;
+  }
+}
+
+/* CTA responsive refinements */

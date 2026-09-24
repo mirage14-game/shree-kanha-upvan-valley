@@ -1,0 +1,127 @@
+
+/* =========================================================
+   FOOTER — Kanha Upvan Valley
+   ========================================================= */
+.site-footer{
+  position:relative;
+  background:#f5f6f5;
+  color:#4e6170;
+  border-top:1px solid rgba(23,59,53,.08);
+  padding:78px 0 0;
+  overflow:hidden;
+}
+.site-footer::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:3px;
+  background:linear-gradient(90deg,transparent 0%,#c9a45c 22%,#173b35 50%,#c9a45c 78%,transparent 100%);
+  opacity:.7;
+}
+.footer-main{
+  width:min(1400px,calc(100% - 110px));
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1.35fr .72fr 1fr 1.25fr 1.35fr;
+  gap:58px;
+  padding-bottom:64px;
+}
+.footer-brand-column{min-width:0}
+.footer-logo{display:inline-flex;align-items:center;margin-bottom:18px}
+.footer-logo img{width:190px;height:auto;display:block;object-fit:contain}
+.footer-tagline{margin:0 0 14px;color:#173b35;font-size:15px;font-weight:700;line-height:1.5}
+.footer-intro{max-width:270px;margin:0 0 25px;font-size:14px;line-height:1.75;color:#687b87}
+.footer-enquire{
+  display:inline-flex;align-items:center;gap:13px;
+  min-height:46px;padding:0 21px;border-radius:999px;
+  background:#173b35;color:#fff;text-decoration:none;
+  font-size:10px;font-weight:800;letter-spacing:.15em;
+  transition:transform .25s ease,background .25s ease,box-shadow .25s ease;
+}
+.footer-enquire:hover{transform:translateY(-2px);background:#245148;box-shadow:0 10px 24px rgba(23,59,53,.16)}
+.footer-column{min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+
+.footer-socials{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:22px;
+}
+.footer-socials a{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(23,59,53,.14);
+  border-radius:10px;
+  color:#173b35;
+  background:rgba(255,255,255,.55);
+  text-decoration:none;
+  transition:transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.footer-socials a:hover{
+  transform:translateY(-2px);
+  background:#173b35;
+  color:#fff;
+  border-color:#173b35;
+}
+.footer-socials svg{width:19px;height:19px;display:block}
+.footer-column h3{
+  margin:5px 0 25px;
+  color:#173b35;
+  font-size:11px;font-weight:800;letter-spacing:.24em;
+}
+.footer-column a,.footer-column>span{
+  color:#607281;text-decoration:none;font-size:14px;line-height:1.55;
+  margin-bottom:13px;transition:color .2s ease,transform .2s ease;
+}
+.footer-column a:hover{color:#9b6d28;transform:translateX(2px)}
+.footer-subheading{margin-top:25px!important;margin-bottom:18px!important}
+.footer-contact-item,.footer-address-block{display:flex;gap:15px;align-items:flex-start;margin-bottom:21px}
+.footer-icon{
+  flex:0 0 28px;width:28px;height:28px;
+  display:grid;place-items:center;
+  color:#9b6d28;font-size:18px;
+  border:1px solid rgba(155,109,40,.35);border-radius:50%;
+}
+.footer-contact-item div,.footer-address-block div{min-width:0;display:flex;flex-direction:column}
+.footer-contact-item a,.footer-contact-item span{margin:0 0 6px!important;font-size:13px!important;line-height:1.5!important;overflow-wrap:anywhere}
+.footer-address-block strong{font-size:10px;letter-spacing:.12em;color:#173b35;margin:2px 0 8px}
+.footer-address-block p{margin:0;font-size:13px;line-height:1.65;color:#607281}
+.footer-bottom{
+  width:min(1400px,calc(100% - 110px));
+  margin:0 auto;
+  min-height:78px;
+  border-top:1px solid rgba(96,114,129,.22);
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:25px;
+  font-size:12px;color:#73818b;
+}
+.footer-bottom-links{display:flex;gap:32px}
+.footer-bottom a{color:#687782;text-decoration:none}
+.footer-bottom a:hover{color:#9b6d28}
+.footer-bottom>span:last-child{text-align:right}
+.footer-bottom strong{color:#73818b;font-weight:400}
+@media(max-width:1150px){
+  .footer-main{grid-template-columns:1.25fr .8fr .9fr 1.2fr;gap:36px}
+  .footer-address-column{grid-column:2 / -1;display:grid;grid-template-columns:1fr 1fr;column-gap:35px}
+  .footer-address-column h3{grid-column:1 / -1}
+}
+@media(max-width:850px){
+  .site-footer{padding-top:60px}
+  .footer-main{width:min(100% - 44px,700px);grid-template-columns:1fr 1fr;gap:45px 35px}
+  .footer-brand-column{grid-column:1 / -1}
+  .footer-address-column{grid-column:1 / -1;display:block}
+  .footer-bottom{width:min(100% - 44px,700px);grid-template-columns:1fr;gap:10px;padding:22px 0 26px;text-align:center}
+  .footer-bottom-links{justify-content:center}
+  .footer-bottom>span:last-child{text-align:center}
+}
+@media(max-width:560px){
+  .footer-main{width:calc(100% - 30px);grid-template-columns:1fr;gap:30px}
+  .footer-brand-column,.footer-address-column{grid-column:auto}
+  .footer-logo img{width:170px}
+  .footer-bottom{width:calc(100% - 30px);font-size:11px}
+  .footer-bottom-links{gap:18px;flex-wrap:wrap}
+}

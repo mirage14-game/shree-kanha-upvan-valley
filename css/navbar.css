@@ -1,0 +1,139 @@
+/* =========================================
+   NAVBAR
+   ========================================= */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+  padding: 22px 3.5vw 0;
+  transition: padding .35s ease;
+}
+
+.navbar {
+  width: min(1360px, 100%);
+  margin: 0 auto;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 10px 12px 10px 18px;
+  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(18, 60, 74, .14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 999px;
+  transition: .35s ease;
+}
+
+.site-header.scrolled {
+  padding-top: 12px;
+}
+
+/* Keep exactly the same glass navbar after scrolling. */
+.site-header.scrolled .navbar {
+  background: rgba(18, 60, 74, .14);
+  border-color: rgba(255,255,255,.28);
+  box-shadow: none;
+}
+
+.brand {
+  width: 168px;
+  height: 52px;
+  flex: 0 0 auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: transparent;
+}
+
+.brand img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: transparent;
+}
+
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(15px, 1.8vw, 27px);
+}
+
+.nav-links a {
+  position: relative;
+  color: rgba(255,255,255,.88);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 8px 0;
+  transition: color .25s ease;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width .25s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+.site-header.scrolled .nav-links a {
+  color: rgba(255,255,255,.88);
+}
+
+.nav-cta {
+  flex: 0 0 auto;
+  padding: 14px 21px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: #17323a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.nav-cta span {
+  margin-left: 7px;
+}
+
+.nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 25px rgba(201,164,92,.28);
+}
+
+.menu-toggle {
+  display: none;
+  border: 0;
+  background: transparent;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 23px;
+  height: 1px;
+  margin: 6px auto;
+  background: #fff;
+}
+
+.site-header.scrolled .menu-toggle span {
+  background: #fff;
+}

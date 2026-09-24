@@ -1,0 +1,13 @@
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+
+@keyframes heroZoom {
+  from { transform: scale(1.07); }
+  to { transform: scale(1.02); }
+}
+
+@keyframes scrollDot {
+  0%, 100% { transform: translate(-50%, 0); opacity: 1; }
+  50% { transform: translate(-50%, 8px); opacity: .3; }
+}
