@@ -328,8 +328,8 @@
 }
 .founder-card{
   display:grid;
-  grid-template-columns:58px 1fr;
-  gap:20px;
+  grid-template-columns:70px 1fr;
+  gap:14px;
   padding:32px;
   min-height:250px;
   border:1px solid rgba(18,60,74,.11);
@@ -344,8 +344,8 @@
   border-color:rgba(201,164,92,.38);
 }
 .founder-icon{
-  width:82px;
-  height:58px;
+  width:68px;
+  height:52px;
   display:grid;
   place-items:center;
   flex-shrink:0;
@@ -353,8 +353,8 @@
   transition:transform .35s ease, filter .35s ease;
 }
 .founder-icon img{
-  width:76px;
-  height:56px;
+  width:64px;
+  height:48px;
   object-fit:contain;
   display:block;
   transform:rotate(-10deg);
