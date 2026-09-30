@@ -112,9 +112,7 @@
   z-index:3;
 }
 .about-hero-media::after{
-  content:"";
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(18,60,74,0) 52%,rgba(18,60,74,.38) 100%);
+  display:none;
 }
 .about-hero-caption{
   position:absolute;left:28px;bottom:26px;z-index:2;
