@@ -271,6 +271,23 @@
   <script src="js/page-transitions.js"></script>
   <script src="js/scroll-reveal.js"></script>
   <script src="js/media-polish.js"></script>
+<script>
+(function () {
+  function syncAboutHeroImage() {
+    const grid = document.querySelector('.about-hero-grid');
+    const copy = grid && grid.children[0];
+    const media = grid && grid.querySelector('.about-hero-media');
+    if (!copy || !media) return;
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      media.style.height = '';
+      return;
+    }
+    media.style.height = Math.ceil(copy.getBoundingClientRect().height) + 'px';
+  }
+  window.addEventListener('load', syncAboutHeroImage);
+  window.addEventListener('resize', syncAboutHeroImage, { passive: true });
+})();
+</script>
 </body>
 
 </html>
