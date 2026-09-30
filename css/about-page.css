@@ -95,6 +95,10 @@
   border-radius:28px;
   box-shadow:0 20px 48px rgba(55,45,30,.13);
   outline:1px solid rgba(255,255,255,.35);
+  transition:
+    transform .65s cubic-bezier(.22,.8,.24,1),
+    box-shadow .35s ease;
+  will-change:transform;
 }
 .about-hero-images img:first-child{
   left:0;
@@ -107,9 +111,31 @@
   z-index:2;
   box-shadow:0 22px 54px rgba(55,45,30,.16);
 }
+
+/* On hover, swap the two photographs: the back image comes forward. */
+.about-hero-media:hover .about-hero-images img:first-child{
+  transform:translate(72.5%, 8.7%);
+  z-index:2;
+  box-shadow:
+    0 18px 44px rgba(55,45,30,.10),
+    0 0 34px rgba(201,164,92,.44),
+    0 0 72px rgba(201,164,92,.18);
+}
+.about-hero-media:hover .about-hero-images img:last-child{
+  transform:translate(-72.5%, -8.7%);
+  z-index:1;
+  box-shadow:
+    0 18px 44px rgba(55,45,30,.10),
+    0 0 34px rgba(201,164,92,.44),
+    0 0 72px rgba(201,164,92,.18);
+}
 .about-hero-caption{
   pointer-events:none;
-  z-index:3;
+  z-index:6;
+  left:26px;
+  bottom:18px;
+  color:#fff;
+  text-shadow:0 2px 10px rgba(0,0,0,.72),0 0 3px rgba(0,0,0,.45);
 }
 .about-hero-media::after{
   display:none;
@@ -432,7 +458,11 @@
   .about-hero{padding:38px 0 52px;}
   .about-hero-media{min-height:360px;height:360px;}
   .about-hero-images{min-height:360px;}
-  .about-hero-images img{width:62%;height:88%;border-radius:22px;}
+  .about-hero-images img{
+  width:62%;
+  height:88%;
+  border-radius:22px;
+}
   .about-strip-inner{grid-template-columns:1fr 1fr;}
   .about-stat:nth-child(2){border-right:0;}
   .about-stat:nth-child(-n+2){border-bottom:1px solid rgba(18,60,74,.09);}
