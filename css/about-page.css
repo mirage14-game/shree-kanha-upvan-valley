@@ -211,31 +211,31 @@
   display:flex;
   justify-content:center;
   align-items:flex-start;
-  gap:24px;
+  gap:30px;
   flex-wrap:nowrap;
 }
-.about-gallery .about-img{
-  flex:0 1 31%;
-  max-width:340px;
-  height:340px;
+.about-gallery .about-img,
+.about-gallery .about-img.wide{
+  flex:0 0 auto;
+  width:auto;
+  max-width:none;
+  height:360px;
   min-height:0;
   display:flex;
   align-items:center;
   justify-content:center;
+  background:transparent;
+  box-shadow:none;
+  border-radius:20px;
 }
 .about-gallery .about-img img{
   width:auto;
-  max-width:100%;
   height:100%;
+  max-width:none;
   max-height:100%;
   object-fit:contain;
   display:block;
-}
-.about-gallery .about-img.wide{
-  flex:0 1 31%;
-  max-width:340px;
-  height:340px;
-  min-height:0;
+  border-radius:18px;
 }
 .about-gallery-note{
   margin-top:18px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7b8586;
@@ -402,7 +402,7 @@
   .about-hero,.about-section,.about-strip-inner,.about-source-note{width:min(100% - 36px,720px);}
   .about-hero-grid,.about-story,.about-location-grid{grid-template-columns:1fr;gap:34px;}
   .about-hero{padding:38px 0 52px;}
-  .about-hero-media,.about-hero-media img{min-height:380px;height:380px;}
+  .about-hero-media,.about-hero-media img{min-height:320px;height:320px;}
   .about-strip-inner{grid-template-columns:1fr 1fr;}
   .about-stat:nth-child(2){border-right:0;}
   .about-stat:nth-child(-n+2){border-bottom:1px solid rgba(18,60,74,.09);}
@@ -428,14 +428,27 @@
   .about-feature:nth-child(odd){padding-right:0;border-right:0;}
   .about-feature:nth-child(even){padding-left:0;}
   .about-location-image{height:360px;}
-  .about-gallery{grid-template-columns:1fr;}
-  .about-gallery .about-img,.about-gallery .about-img.wide{
-    height:300px;
-    min-height:0;
+  .about-gallery{
+    justify-content:flex-start;
+    overflow-x:auto;
+    padding:4px 4px 14px;
+    gap:18px;
+    scroll-snap-type:x proximity;
+    scrollbar-width:thin;
+  }
+  .about-gallery .about-img,
+  .about-gallery .about-img.wide{
+    flex:0 0 auto;
+    width:auto;
+    max-width:none;
+    height:290px;
     grid-column:auto;
+    scroll-snap-align:start;
   }
   .about-gallery .about-img img{
-    max-height:285px;
+    height:100%;
+    max-height:none;
+    width:auto;
   }
   .about-plots{grid-template-columns:1fr;}
 }
