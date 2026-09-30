@@ -1,3 +1,13 @@
+/* About-page navbar contrast */
+.about-page .nav-links a,
+.about-page .site-header.scrolled .nav-links a{
+  color:#111827;
+}
+.about-page .menu-toggle span,
+.about-page .site-header.scrolled .menu-toggle span{
+  background:#111827;
+}
+
 /* About page */
 .about-page{
   background:var(--ivory);
@@ -14,8 +24,8 @@
 .about-hero-grid{
   display:grid;
   grid-template-columns:1.02fr .98fr;
-  gap:64px;
-  align-items:center;
+  gap:56px;
+  align-items:start;
 }
 .about-eyebrow,.about-section-label{
   display:flex;align-items:center;gap:14px;
@@ -60,14 +70,17 @@
 }
 .about-hero-media{
   position:relative;
-  min-height:420px;
+  height:420px;
+  min-height:0;
   border-radius:28px;
   overflow:hidden;
   background:#d8d0c1;
   box-shadow:0 28px 80px rgba(55,45,30,.15);
 }
 .about-hero-media img{
-  width:100%;height:100%;min-height:420px;object-fit:contain;
+  width:100%;
+  height:100%;
+  object-fit:contain;
   display:block;
   transform:none;
 }
@@ -195,10 +208,16 @@
 .about-location-image img{width:100%;height:100%;object-fit:cover;display:block;}
 
 .about-gallery{
-  display:grid;grid-template-columns:1fr 1fr;gap:18px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  gap:24px;
+  flex-wrap:nowrap;
 }
 .about-gallery .about-img{
-  height:270px;
+  flex:0 1 31%;
+  max-width:340px;
+  height:340px;
   min-height:0;
   display:flex;
   align-items:center;
@@ -207,14 +226,15 @@
 .about-gallery .about-img img{
   width:auto;
   max-width:100%;
-  height:auto;
-  max-height:250px;
+  height:100%;
+  max-height:100%;
   object-fit:contain;
   display:block;
 }
 .about-gallery .about-img.wide{
-  grid-column:1/-1;
-  height:270px;
+  flex:0 1 31%;
+  max-width:340px;
+  height:340px;
   min-height:0;
 }
 .about-gallery-note{
@@ -355,8 +375,9 @@
 .about-hero-media:hover,
 .about-location-image:hover{
   box-shadow:
-    0 16px 42px rgba(55,45,30,.09),
-    0 0 28px rgba(201,164,92,.28);
+    0 16px 40px rgba(55,45,30,.08),
+    0 0 34px rgba(201,164,92,.42),
+    0 0 72px rgba(201,164,92,.16);
 }
 .about-gallery .about-img:hover{
   transform:translateY(-2px);
@@ -364,9 +385,10 @@
 .founder-card:hover,
 .about-plot:hover{
   box-shadow:
-    0 18px 46px rgba(55,45,30,.09),
-    0 0 24px rgba(201,164,92,.25);
-  border-color:rgba(201,164,92,.50);
+    0 18px 44px rgba(55,45,30,.08),
+    0 0 30px rgba(201,164,92,.38),
+    0 0 64px rgba(201,164,92,.14);
+  border-color:rgba(201,164,92,.56);
 }
 
 @media (max-width:900px){
