@@ -344,31 +344,31 @@
   border-color:rgba(201,164,92,.38);
 }
 .founder-icon{
-  width:54px;
-  height:54px;
+  width:82px;
+  height:58px;
   display:grid;
   place-items:center;
-  border:1px solid rgba(201,164,92,.45);
-  border-radius:50%;
-  background:rgba(255,253,248,.78);
-  overflow:hidden;
-  transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  flex-shrink:0;
+  overflow:visible;
+  transition:transform .35s ease, filter .35s ease;
 }
 .founder-icon img{
-  width:34px;
-  height:34px;
+  width:76px;
+  height:56px;
   object-fit:contain;
   display:block;
   transform:rotate(-10deg);
-  transition:transform .5s ease;
+  filter:drop-shadow(0 5px 8px rgba(55,45,30,.12));
+  transition:transform .5s ease, filter .35s ease;
 }
 .founder-card:hover .founder-icon{
   transform:translateY(-2px);
-  border-color:rgba(201,164,92,.65);
-  box-shadow:0 0 20px rgba(201,164,92,.22);
 }
 .founder-card:hover .founder-icon img{
-  transform:rotate(5deg) scale(1.08);
+  transform:rotate(3deg) scale(1.06);
+  filter:
+    drop-shadow(0 5px 8px rgba(55,45,30,.12))
+    drop-shadow(0 0 12px rgba(201,164,92,.22));
 }
 .founder-role{
   margin:2px 0 10px;
