@@ -33,7 +33,18 @@
     '.location-actions',
     '.gallery-filters',
     '.gallery-note',
-    '.service-highlights'
+    '.service-highlights',
+
+    // About page — keep the same viewport reveal motion as the other pages
+    '.about-hero-grid',
+    '.about-section-head',
+    '.founders-intro',
+    '.founders-quote',
+    '.about-features-head',
+    '.about-location-copy',
+    '.about-location-image',
+    '.about-gallery',
+    '.about-plots'
   ];
 
   const targets = new Set();
@@ -53,7 +64,12 @@
     '.location-info-card',
     '.gallery-card',
     '.distance-list > div',
-    '.amenity-row'
+    '.amenity-row',
+    '.founder-card',
+    '.about-feature',
+    '.about-distance',
+    '.about-plot',
+    '.about-img'
   ].forEach(function (selector) {
     page.querySelectorAll(selector).forEach(function (element) {
       if (element.closest('.hero') || element.closest('.project-hero') || element.closest('.gallery-hero')) return;
