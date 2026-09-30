@@ -442,9 +442,7 @@
 .about-gallery .about-img:hover{
   transform:translateY(-2px);
 }
-.about-gallery .about-img:hover img{
-  transform:none;
-}
+.about-gallery .about-img:hover img{transform:scale(1.035);}
 .founder-card:hover,
 .about-plot:hover{
   box-shadow:
@@ -521,4 +519,3 @@
   .about-plots{grid-template-columns:1fr;}
 }
 
-.about-hero-images img:hover{transform:none;}
