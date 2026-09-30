@@ -25,7 +25,7 @@
   display:grid;
   grid-template-columns:1.02fr .98fr;
   gap:56px;
-  align-items:start;
+  align-items:stretch;
 }
 .about-eyebrow,.about-section-label{
   display:flex;align-items:center;gap:14px;
@@ -70,8 +70,9 @@
 }
 .about-hero-media{
   position:relative;
-  height:420px;
+  height:auto;
   min-height:0;
+  align-self:stretch;
   border-radius:28px;
   overflow:hidden;
   background:#d8d0c1;
@@ -219,7 +220,7 @@
   flex:0 0 auto;
   width:auto;
   max-width:none;
-  height:360px;
+  height:440px;
   min-height:0;
   display:flex;
   align-items:center;
@@ -402,7 +403,7 @@
   .about-hero,.about-section,.about-strip-inner,.about-source-note{width:min(100% - 36px,720px);}
   .about-hero-grid,.about-story,.about-location-grid{grid-template-columns:1fr;gap:34px;}
   .about-hero{padding:38px 0 52px;}
-  .about-hero-media,.about-hero-media img{min-height:320px;height:320px;}
+  .about-hero-media,.about-hero-media img{min-height:360px;height:360px;}
   .about-strip-inner{grid-template-columns:1fr 1fr;}
   .about-stat:nth-child(2){border-right:0;}
   .about-stat:nth-child(-n+2){border-bottom:1px solid rgba(18,60,74,.09);}
@@ -441,7 +442,7 @@
     flex:0 0 auto;
     width:auto;
     max-width:none;
-    height:290px;
+    height:330px;
     grid-column:auto;
     scroll-snap-align:start;
   }
