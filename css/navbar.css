@@ -137,3 +137,81 @@
 .site-header.scrolled .menu-toggle span {
   background: #fff;
 }
+
+
+/* Shared mobile navbar layout — identical across every page. */
+@media (max-width: 850px) {
+  .site-header {
+    padding: 15px 18px 0;
+  }
+
+  .navbar {
+    height: 67px;
+    padding: 10px 10px 10px 12px;
+    gap: 0;
+  }
+
+  .brand {
+    width: 150px;
+    height: 48px;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 92px;
+    left: 18px;
+    right: 18px;
+    padding: 23px;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin-left: 0;
+    background: rgba(18,60,74,.97);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 18px;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    width: 100%;
+    padding: 12px 3px;
+    font-size: 11px;
+  }
+
+  .nav-cta {
+    margin-left: auto;
+    padding: 12px 14px;
+    font-size: 9px;
+  }
+
+  .menu-toggle {
+    display: block;
+    flex: 0 0 44px;
+    margin-left: auto;
+    margin-right: 2px;
+    padding: 0;
+  }
+
+  .menu-toggle span {
+    margin: 6px 0 6px auto;
+  }
+}
+
+@media (max-width: 540px) {
+  .nav-cta {
+    display: none;
+  }
+
+  .brand {
+    width: 145px;
+  }
+
+  .menu-toggle {
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
