@@ -24,7 +24,7 @@ function json(res, status, data) {
 }
 
 function clean(value, maxLength = 500) {
-  return String(value ?? "").trim().replace(/[\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]/g, "").slice(0, maxLength);
+  return String(value ?? "").trim().replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").slice(0, maxLength);
 }
 
 function escapeHtml(value) {
@@ -34,7 +34,7 @@ function escapeHtml(value) {
 }
 
 function normalizeWhatsAppNumber(value) {
-  return String(value || "").replace(/\\D/g, "");
+  return String(value || "").replace(/\D/g, "");
 }
 
 export default async function handler(req, res) {
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
   if (!name || !email || !phone || !interest || !consent) {
     return json(res, 400, { error: "Please fill in all required fields and consent to be contacted." });
   }
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return json(res, 400, { error: "Please enter a valid email address." });
   }
   if (!/[0-9]{7,}/.test(phone)) {
@@ -87,7 +87,7 @@ export default async function handler(req, res) {
     "Specific query: " + (query || "Not provided"),
     "",
     "Submitted through the website enquiry form."
-  ].join("\\n");
+  ].join("\n");
   const html = [
     "<h2>New website enquiry — Shri Kanha Upvan Valley</h2>",
     "<p><strong>Name:</strong> " + escapeHtml(name) + "</p>",
@@ -144,8 +144,8 @@ export default async function handler(req, res) {
       if (!recipient || !phoneNumberId || !token) {
         whatsappConfigured = false;
       } else {
-        // The WhatsApp template must be approved in Meta Business Manager and use
-        // six BODY placeholders, in this exact order:
+        // Create and get approval for this WhatsApp template in Meta Business Manager.
+        // It must have six BODY placeholders, in this exact order:
         // name, phone, email, interest, preferred location, query.
         const parameters = [
           name,
