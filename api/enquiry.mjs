@@ -2,9 +2,10 @@
 // Required Vercel Environment Variables:
 // RESEND_API_KEY, RESEND_FROM_EMAIL
 // Optional email recipient: ENQUIRY_TO_EMAIL (defaults to the company's published Gmail)
-// WhatsApp: WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_TO_NUMBER,
+// WhatsApp: WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_TO_NUMBERS,
 //           WHATSAPP_TEMPLATE_NAME, WHATSAPP_TEMPLATE_LANGUAGE (defaults to "en"),
 //           WHATSAPP_GRAPH_API_VERSION (defaults to "v26.0")
+// WHATSAPP_TO_NUMBERS is a comma-separated list of full international numbers without + signs.
 
 const COMPANY_EMAIL = process.env.ENQUIRY_TO_EMAIL || "shrikanhaupvanvalley@gmail.com";
 const ALLOWED_INTERESTS = new Set([
@@ -70,11 +71,7 @@ export default async function handler(req, res) {
 
   const emailApiKey = process.env.RESEND_API_KEY;
   const sender = process.env.RESEND_FROM_EMAIL;
-  if (!emailApiKey || !sender) {
-    return json(res, 503, {
-      error: "The enquiry delivery service has not been configured yet. Please try again later or contact the company directly."
-    });
-  }
+  const emailConfigured = Boolean(emailApiKey && sender);
 
   const plainText = [
     "New website enquiry — Shri Kanha Upvan Valley",
@@ -103,10 +100,12 @@ export default async function handler(req, res) {
   let whatsappConfigured = Boolean(
     process.env.WHATSAPP_ACCESS_TOKEN &&
     process.env.WHATSAPP_PHONE_NUMBER_ID &&
-    process.env.WHATSAPP_TO_NUMBER &&
+    (process.env.WHATSAPP_TO_NUMBERS || process.env.WHATSAPP_TO_NUMBER) &&
     process.env.WHATSAPP_TEMPLATE_NAME
   );
+  let whatsappResults = [];
 
+  if (emailConfigured) {
   try {
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -131,72 +130,88 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("Resend request failed:", error.message);
   }
+  } // end emailConfigured
 
   if (whatsappConfigured) {
-    try {
-      const token = process.env.WHATSAPP_ACCESS_TOKEN;
-      const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
-      const recipient = normalizeWhatsAppNumber(process.env.WHATSAPP_TO_NUMBER);
-      const templateName = process.env.WHATSAPP_TEMPLATE_NAME;
-      const language = process.env.WHATSAPP_TEMPLATE_LANGUAGE || "en";
-      const apiVersion = process.env.WHATSAPP_GRAPH_API_VERSION || "v26.0";
+    const token = process.env.WHATSAPP_ACCESS_TOKEN;
+    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+    const configuredNumbers = process.env.WHATSAPP_TO_NUMBERS || process.env.WHATSAPP_TO_NUMBER || "";
+    const recipients = [...new Set(configuredNumbers.split(",").map(normalizeWhatsAppNumber).filter(Boolean))];
+    const templateName = process.env.WHATSAPP_TEMPLATE_NAME;
+    const language = process.env.WHATSAPP_TEMPLATE_LANGUAGE || "en";
+    const apiVersion = process.env.WHATSAPP_GRAPH_API_VERSION || "v26.0";
 
-      if (!recipient || !phoneNumberId || !token) {
-        whatsappConfigured = false;
-      } else {
-        // Create and get approval for this WhatsApp template in Meta Business Manager.
-        // It must have six BODY placeholders, in this exact order:
-        // name, phone, email, interest, preferred location, query.
-        const parameters = [
-          name,
-          phone,
-          email,
-          interest,
-          location || "Not provided",
-          query || "Not provided"
-        ].map((text) => ({ type: "text", text: text.slice(0, 1000) }));
+    if (!recipients.length || !phoneNumberId || !token) {
+      whatsappConfigured = false;
+    } else {
+      // The approved WhatsApp template must contain six BODY placeholders in this order:
+      // name, phone, email, interest, preferred location, query.
+      const parameters = [
+        name,
+        phone,
+        email,
+        interest,
+        location || "Not provided",
+        query || "Not provided"
+      ].map((value) => ({ type: "text", text: value.slice(0, 1000) }));
 
-        const waResponse = await fetch(
-          "https://graph.facebook.com/" + apiVersion + "/" + phoneNumberId + "/messages",
-          {
-            method: "POST",
-            headers: {
-              "Authorization": "Bearer " + token,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              messaging_product: "whatsapp",
-              to: recipient,
-              type: "template",
-              template: {
-                name: templateName,
-                language: { code: language },
-                components: [{ type: "body", parameters }]
-              }
-            })
+      // Send separately to both internal notification recipients.
+      whatsappResults = await Promise.all(recipients.map(async (recipient) => {
+        try {
+          const waResponse = await fetch(
+            "https://graph.facebook.com/" + apiVersion + "/" + phoneNumberId + "/messages",
+            {
+              method: "POST",
+              headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                messaging_product: "whatsapp",
+                to: recipient,
+                type: "template",
+                template: {
+                  name: templateName,
+                  language: { code: language },
+                  components: [{ type: "body", parameters }]
+                }
+              })
+            }
+          );
+          if (!waResponse.ok) {
+            const errorBody = await waResponse.text();
+            console.error("WhatsApp notification error for recipient:", recipient, waResponse.status, errorBody.slice(0, 500));
           }
-        );
-
-        whatsappSent = waResponse.ok;
-        if (!waResponse.ok) {
-          const errorBody = await waResponse.text();
-          console.error("WhatsApp notification error:", waResponse.status, errorBody.slice(0, 500));
+          return { recipient, sent: waResponse.ok };
+        } catch (error) {
+          console.error("WhatsApp request failed for recipient:", recipient, error.message);
+          return { recipient, sent: false };
         }
-      }
-    } catch (error) {
-      console.error("WhatsApp notification request failed:", error.message);
+      }));
+      whatsappSent = recipients.length > 0 && whatsappResults.every((result) => result.sent);
     }
   }
 
-  if (!emailSent && !whatsappSent) {
-    return json(res, 502, {
-      error: "We couldn't deliver your enquiry notifications. Please try again or contact the company directly.",
-      emailSent,
-      whatsappSent,
-      whatsappConfigured
-    });
-  }
+  const responseBody = {
+    emailSent,
+    emailConfigured,
+    whatsappSent,
+    whatsappConfigured,
+    whatsappResults: whatsappResults.map((result) => ({ sent: result.sent }))
+  };
 
-  const status = emailSent && whatsappSent ? 200 : (emailSent && !whatsappConfigured ? 200 : 207);
-  return json(res, status, { emailSent, whatsappSent, whatsappConfigured });
+  if (emailSent && whatsappSent) return json(res, 200, responseBody);
+  if (emailSent && !whatsappConfigured) {
+    return json(res, 207, { ...responseBody, error: "The email was sent, but WhatsApp notifications still need to be configured." });
+  }
+  if (emailSent && whatsappConfigured) {
+    return json(res, 207, { ...responseBody, error: "Email was sent, but one or more WhatsApp notifications failed." });
+  }
+  if (!emailConfigured && whatsappSent) {
+    return json(res, 207, { ...responseBody, error: "WhatsApp notifications were sent, but email is not configured." });
+  }
+  return json(res, 502, {
+    ...responseBody,
+    error: "We could not deliver the enquiry to all configured channels. Please try again or contact the company directly."
+  });
 }
