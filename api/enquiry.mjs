@@ -1,11 +1,13 @@
 // Vercel serverless handler for the Kanha Upvan Valley enquiry form.
 // Required Vercel Environment Variables:
-// RESEND_API_KEY, RESEND_FROM_EMAIL
-// Optional email recipient: ENQUIRY_TO_EMAIL (defaults to the company's published Gmail)
+// GMAIL_USER, GMAIL_APP_PASSWORD, ENQUIRY_TO_EMAIL
+// Gmail App Password is secret; store it only in Vercel Environment Variables.
 // WhatsApp: WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_TO_NUMBERS,
 //           WHATSAPP_TEMPLATE_NAME, WHATSAPP_TEMPLATE_LANGUAGE (defaults to "en"),
 //           WHATSAPP_GRAPH_API_VERSION (defaults to "v26.0")
 // WHATSAPP_TO_NUMBERS is a comma-separated list of full international numbers without + signs.
+
+import nodemailer from "nodemailer";
 
 const COMPANY_EMAIL = process.env.ENQUIRY_TO_EMAIL || "shrikanhaupvanvalley@gmail.com";
 const ALLOWED_INTERESTS = new Set([
@@ -69,9 +71,9 @@ export default async function handler(req, res) {
     return json(res, 400, { error: "Please select one of the listed enquiry options." });
   }
 
-  const emailApiKey = process.env.RESEND_API_KEY;
-  const sender = process.env.RESEND_FROM_EMAIL;
-  const emailConfigured = Boolean(emailApiKey && sender);
+  const gmailUser = process.env.GMAIL_USER;
+  const gmailAppPassword = (process.env.GMAIL_APP_PASSWORD || "").replace(/\\s/g, "");
+  const emailConfigured = Boolean(gmailUser && gmailAppPassword);
 
   const plainText = [
     "New website enquiry — Shri Kanha Upvan Valley",
@@ -106,31 +108,29 @@ export default async function handler(req, res) {
   let whatsappResults = [];
 
   if (emailConfigured) {
-  try {
-    const emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + emailApiKey,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        from: sender,
-        to: [COMPANY_EMAIL],
-        reply_to: email,
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: gmailUser,
+          pass: gmailAppPassword
+        }
+      });
+
+      await transporter.sendMail({
+        from: `Shri Kanha Upvan Valley Website <${gmailUser}>`,
+        to: COMPANY_EMAIL,
+        replyTo: email,
         subject: "Website enquiry: " + name,
         text: plainText,
         html
-      })
-    });
-    emailSent = emailResponse.ok;
-    if (!emailResponse.ok) {
-      const errorBody = await emailResponse.text();
-      console.error("Resend email error:", emailResponse.status, errorBody.slice(0, 500));
+      });
+      emailSent = true;
+    } catch (error) {
+      console.error("Gmail SMTP delivery failed:", error.message);
     }
-  } catch (error) {
-    console.error("Resend request failed:", error.message);
   }
-  } // end emailConfigured
+
 
   if (whatsappConfigured) {
     const token = process.env.WHATSAPP_ACCESS_TOKEN;
