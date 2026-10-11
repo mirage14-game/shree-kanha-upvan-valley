@@ -36,7 +36,7 @@ form.addEventListener('submit', (event) => {
   const query = String(formData.get('query') || '').trim();
 
   const message = [
-    'New Website Enquiry — Shri Kanha Upvan Valley',
+    'New Enquiry — Shri Kanha Upvan Valley',
     '',
     'Name: ' + name,
     'Email: ' + email,
