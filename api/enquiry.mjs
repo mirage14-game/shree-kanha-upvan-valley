@@ -72,7 +72,7 @@ export default async function handler(req, res) {
   }
 
   const gmailUser = process.env.GMAIL_USER;
-  const gmailAppPassword = (process.env.GMAIL_APP_PASSWORD || "").replace(/\\s/g, "");
+  const gmailAppPassword = (process.env.GMAIL_APP_PASSWORD || "").replace(/\s/g, "");
   const emailConfigured = Boolean(gmailUser && gmailAppPassword);
 
   const plainText = [
