@@ -35,3 +35,19 @@ Added the Why Choose Us section directly below About. Its feature content is bas
 - Park and community hall
 
 The section has its own `css/why-choose-us.css` file.
+
+## Enquiry delivery setup (Vercel)
+
+The enquiry form posts to `/api/enquiry.mjs`. Before live delivery works, configure these Vercel Production environment variables:
+
+- `RESEND_API_KEY` — sending-only API key from Resend.
+- `RESEND_FROM_EMAIL` — sender address on a domain verified with Resend.
+- `ENQUIRY_TO_EMAIL` — destination mailbox (currently configured as `shrikanhaupvanvalley@gmail.com`).
+- `WHATSAPP_ACCESS_TOKEN` — Meta WhatsApp Cloud API access token.
+- `WHATSAPP_PHONE_NUMBER_ID` — sender phone-number ID from the WhatsApp Business Platform.
+- `WHATSAPP_TO_NUMBERS` — comma-separated recipients in international digits-only format. Currently configured as `919608689709,917977915800`.
+- `WHATSAPP_TEMPLATE_NAME` — approved WhatsApp template with six body placeholders, in order: name, phone, email, interest, preferred location, query.
+- `WHATSAPP_TEMPLATE_LANGUAGE` — the approved template language code (commonly `en`).
+- `WHATSAPP_GRAPH_API_VERSION` — optional; defaults to `v26.0`.
+
+Secrets must only be stored in Vercel Environment Variables, not committed to this repository or pasted into chat. Environment-variable changes apply to a new deployment, so redeploy after configuration. For the email sender, verify a domain first; Resend requires API credentials and an authorized sender domain for production sending. For WhatsApp delivery, configure Meta Business Platform and obtain approval for the notification template before testing.
