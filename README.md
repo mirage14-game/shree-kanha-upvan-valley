@@ -36,21 +36,8 @@ Added the Why Choose Us section directly below About. Its feature content is bas
 
 The section has its own `css/why-choose-us.css` file.
 
-## Enquiry delivery setup (Vercel)
+## Website enquiry form
 
-The enquiry form posts to `/api/enquiry.mjs`.
+The enquiry form opens a prefilled WhatsApp message to the company at **+91 7977 915 800**. The user must tap **Send** inside WhatsApp to actually send it. The message includes the form's name, email, contact number, preferred location, selected interest and optional query. No email notification is sent by this flow.
 
-### Gmail email delivery
-- `GMAIL_USER` — the company Gmail account, e.g. `shrikanhaupvanvalley@gmail.com`.
-- `GMAIL_APP_PASSWORD` — a Google App Password generated after enabling 2-Step Verification. Store only in Vercel Environment Variables; never commit it.
-- `ENQUIRY_TO_EMAIL` — destination inbox (currently configured as `shrikanhaupvanvalley@gmail.com`).
-
-### WhatsApp notifications
-- `WHATSAPP_ACCESS_TOKEN` — Meta WhatsApp Cloud API access token.
-- `WHATSAPP_PHONE_NUMBER_ID` — sender phone-number ID from the WhatsApp Business Platform.
-- `WHATSAPP_TO_NUMBERS` — comma-separated internal recipients in international digits-only format. Current recipients are `919608689709,917977915800`.
-- `WHATSAPP_TEMPLATE_NAME` — approved WhatsApp message template with six body placeholders, in this order: name, phone, email, interest, preferred location, query.
-- `WHATSAPP_TEMPLATE_LANGUAGE` — template language code.
-- `WHATSAPP_GRAPH_API_VERSION` — optional Graph API version; defaults in code.
-
-Secrets must only be stored in Vercel Environment Variables, never committed to this repository or pasted into chat. After changing environment variables, redeploy to make the new values available to the function. WhatsApp requires a Meta Business Platform setup and an approved notification template before automated delivery can be tested.
+WhatsApp click-to-chat uses a `wa.me` URL with the message URL-encoded. For fully automatic server-to-WhatsApp delivery without the customer's Send tap, the business must separately configure WhatsApp Business Platform / Cloud API credentials and an approved message template.
