@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/micro-interactions.css" />
   <link rel="stylesheet" href="css/scroll-reveal.css" />
   <link rel="stylesheet" href="css/media-polish.css" />
+  <style>.form-trap{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}</style>
 </head>
 <body class="cta-page-body">
   <header class="site-header cta-header" id="siteHeader">
@@ -63,6 +64,7 @@
             <label class="field"><span class="sr-only">Any specific query</span><span class="field-icon">▣</span><input name="query" type="text" placeholder="Any specific query? (Optional)"></label>
 
             <label class="consent"><input type="checkbox" name="consent" required><span>I agree to the <a href="#" onclick="return false;">Privacy Policy</a> and consent to be contacted.</span></label>
+            <label class="form-trap" aria-hidden="true">Leave this field empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
 
             <div class="enquiry-actions">
               <button class="enquiry-primary" type="submit">Enquire Now <span>→</span></button>
