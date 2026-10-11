@@ -47,17 +47,20 @@ form.addEventListener('submit', async (event) => {
     const result = await response.json().catch(() => ({}));
 
     if (result.emailSent && result.whatsappSent) {
-      status.textContent = 'Thank you! Your enquiry has been sent to the company by email and WhatsApp.';
+      status.textContent = 'Thank you! Your enquiry has been sent by email and WhatsApp to both company numbers.';
       status.className = 'form-status success';
       form.reset();
     } else if (result.emailSent && !result.whatsappConfigured) {
       status.textContent = 'Your enquiry email was sent. WhatsApp notifications still need to be configured by the website administrator.';
       status.className = 'form-status success';
       form.reset();
-    } else if (result.emailSent && result.whatsappSent === false) {
-      status.textContent = 'Your enquiry email was sent, but the WhatsApp notification failed. Please contact the company directly to ensure they receive your request.';
+    } else if (result.emailSent && result.whatsappConfigured && !result.whatsappSent) {
+      status.textContent = 'Your enquiry email was sent, but at least one WhatsApp notification failed. Please contact the company to confirm receipt.';
       status.className = 'form-status error';
       form.reset();
+    } else if (result.whatsappSent && !result.emailConfigured) {
+      status.textContent = 'Your WhatsApp notifications were sent, but email is not configured yet. Please contact the company to confirm email setup.';
+      status.className = 'form-status error';
     } else {
       throw new Error(result.error || 'Your enquiry could not be sent. Please try again.');
     }
