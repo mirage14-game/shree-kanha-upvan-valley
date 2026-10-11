@@ -17,58 +17,48 @@ navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', ()
   menuToggle.setAttribute('aria-expanded','false');
 }));
 
-form.addEventListener('submit', async (event) => {
+form.addEventListener('submit', (event) => {
   event.preventDefault();
 
   if (!form.checkValidity()) {
     form.reportValidity();
-    status.textContent = 'Please complete the required details before submitting.';
+    status.textContent = 'Please complete the required details before continuing.';
     status.className = 'form-status error';
     return;
   }
 
-  const submitButton = form.querySelector('button[type="submit"]');
-  const originalButtonText = submitButton.innerHTML;
-  submitButton.disabled = true;
-  submitButton.innerHTML = 'Sending enquiry…';
-  status.textContent = 'Sending your enquiry securely. Please wait.';
-  status.className = 'form-status';
+  const formData = new FormData(form);
+  const name = String(formData.get('name') || '').trim();
+  const email = String(formData.get('email') || '').trim();
+  const phone = String(formData.get('phone') || '').trim();
+  const location = String(formData.get('location') || '').trim();
+  const interest = String(formData.get('interest') || '').trim();
+  const query = String(formData.get('query') || '').trim();
 
-  try {
-    const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
+  const message = [
+    'New Website Enquiry — Shri Kanha Upvan Valley',
+    '',
+    'Name: ' + name,
+    'Email: ' + email,
+    'Contact Number: ' + phone,
+    'Preferred Location: ' + (location || 'Not provided'),
+    'Interested In: ' + interest,
+    'Specific Query: ' + (query || 'Not provided'),
+    '',
+    'Submitted via the website enquiry form.'
+  ].join('\\n');
 
-    const response = await fetch('/api/enquiry.mjs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+  const whatsappUrl = 'https://wa.me/917977915800?text=' + encodeURIComponent(message);
 
-    const result = await response.json().catch(() => ({}));
+  status.textContent = 'Opening WhatsApp with your enquiry details. Please tap Send in WhatsApp to submit your enquiry.';
+  status.className = 'form-status success';
 
-    if (result.emailSent && result.whatsappSent) {
-      status.textContent = 'Thank you! Your enquiry has been sent by email and WhatsApp to both company numbers.';
-      status.className = 'form-status success';
-      form.reset();
-    } else if (result.emailSent && !result.whatsappConfigured) {
-      status.textContent = 'Your enquiry email was sent. WhatsApp notifications still need to be configured by the website administrator.';
-      status.className = 'form-status success';
-      form.reset();
-    } else if (result.emailSent && result.whatsappConfigured && !result.whatsappSent) {
-      status.textContent = 'Your enquiry email was sent, but at least one WhatsApp notification failed. Please contact the company to confirm receipt.';
-      status.className = 'form-status error';
-      form.reset();
-    } else if (result.whatsappSent && !result.emailConfigured) {
-      status.textContent = 'Your WhatsApp notifications were sent, but email is not configured yet. Please contact the company to confirm email setup.';
-      status.className = 'form-status error';
-    } else {
-      throw new Error(result.error || 'Your enquiry could not be sent. Please try again.');
-    }
-  } catch (error) {
-    status.textContent = error.message || 'We could not send your enquiry. Please try again or contact the company directly.';
-    status.className = 'form-status error';
-  } finally {
-    submitButton.disabled = false;
-    submitButton.innerHTML = originalButtonText;
+  // Open synchronously from the form submit interaction so mobile browsers are
+  // more likely to hand the link to WhatsApp; fall back to the current tab if blocked.
+  const whatsappWindow = window.open(whatsappUrl, '_blank');
+  if (whatsappWindow) {
+    whatsappWindow.opener = null;
+  } else {
+    window.location.href = whatsappUrl;
   }
 });
