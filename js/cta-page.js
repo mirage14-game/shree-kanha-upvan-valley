@@ -46,7 +46,7 @@ form.addEventListener('submit', (event) => {
     'Specific Query: ' + (query || 'Not provided'),
     '',
     'Submitted via the website enquiry form.'
-  ].join('\\n');
+  ].join('\n');
 
   const whatsappUrl = 'https://wa.me/917977915800?text=' + encodeURIComponent(message);
 
