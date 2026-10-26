@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shree-kanha-upvan-valley.vercel.app/sitemap.xml
